@@ -1,13 +1,20 @@
-on:
+name: Hacker Laws Action
+
+on: 
   pull_request:
+    types: [opened]
 
 jobs:
-  pr:
+  hacker_laws_action:
     runs-on: ubuntu-latest
+    name: Hacker Laws Action Job
     steps:
-      - uses: mshick/add-pr-comment@v1
-        with:
-          message: |
-            **Howdie!**
-          proxy-url: https://add-pr-comment-proxy-94idvmwyie-uc.a.run.app
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Hacker Laws Action Step
+        env:
+          PR_URL: ${{ github.event.pull_request.comments_url }}
+          PR_SENDER: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: umutphp/hacker-laws-action@v1
+        id: hacker_laws_action
